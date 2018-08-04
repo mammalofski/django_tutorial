@@ -1,0 +1,85 @@
+# setup
+
+# install python
+
+-> https://realpython.com/installing-python/
+
+$ python --version
+$ python3 --version
+
+$ sudo add-apt-repository ppa:deadsnakes/ppa
+$ sudo apt-get update
+$ sudo apt-get install python3.6
+
+# install pip3
+
+$ wget https://bootstrap.pypa.io/get-pip.py
+$ sudo python3 get-pip.py
+
+# install virtualevn wrapper
+
+$ pip3 install virtualenvwrapper
+
+-> add this to ~/.bashrc
+
+$ export WORKON_HOME=/opt/.virtualenvs
+$ export PROJECT_HOME=/opt
+$ export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+$ source /usr/local/bin/virtualenvwrapper.sh    
+$ export PATH=$PATH:/opt
+$ export LC_ALL="en_US.UTF-8"
+$ export LC_CTYPE="en_US.UTF-8"
+
+-> then run 
+
+$ source ~/.bashrc  
+
+# install postgres
+
+$ sudo apt-get update
+$ sudo apt-get install python-pip python-dev libpq-dev postgresql postgresql-contrib
+$ sudo su - postgres
+$ psql
+$ CREATE DATABASE myproject;
+$ CREATE USER myprojectuser WITH PASSWORD 'password';
+$ ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
+$ ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
+$ ALTER ROLE myprojectuser SET timezone TO 'UTC';
+$ GRANT ALL PRIVILEGES ON DATABASE myproject TO myprojectuser;
+$ \q
+$ exit
+ 
+-> now vreate a virtualenv
+$ pip install django psycopg2
+$ django-admin.py startproject myproject .
+
+-> now change this in settings
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'myproject',
+        'USER': 'myprojectuser',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+
+-> now migrate and everything
+
+
+# install django
+
+$ sudo pip3 install django 
+
+# create priject
+
+$ django-admin startproject myfirstdjangopriject
+$ python3 manage.py startapp myfirstapp
+
+-> add 'myfirstapp' to installed apps in settings 
+
+
+
+
