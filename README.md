@@ -6,9 +6,13 @@
 
 ##### related links :
 - [django handbook](https://djangobook.com/the-django-book/)
+- install virtualenvwrapper
+  - [for windows](http://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows/)
+  - [for linux](http://exponential.io/blog/2015/02/10/install-virtualenv-and-virtualenvwrapper-on-ubuntu/)
 - postgreSQL:
   - [postgreSQL with Django guide #1](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04)
   - [postgreSQL with Django guide #2](https://tutorial-extensions.djangogirls.org/en/optional_postgresql_installation/)
+
 
 
 
