@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import *
+
+admin.site.register(Laptop)
+admin.site.register(Mobile)
+admin.site.register(Inventory)
+
+
