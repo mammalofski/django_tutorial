@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 
 POSITIONS = (
@@ -26,7 +26,7 @@ POSITIONS = (
 
 class Team(models.Model):
     name = models.CharField(max_length=255)
-    coach = models.ForeignKey(User, related_name='teams')
+    coach = models.ForeignKey(User, related_name='teams', on_delete=models.CASCADE)
     practice_location = models.CharField(max_length=255)
 
     def __str__(self):
@@ -41,7 +41,7 @@ class Player(models.Model):
     name = models.CharField(max_length=255)
     age = models.PositiveIntegerField()
     position = models.CharField(choices=POSITIONS, max_length=3)
-    team = models.ForeignKey(Team, related_name='players')
+    team = models.ForeignKey(Team, related_name='players', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

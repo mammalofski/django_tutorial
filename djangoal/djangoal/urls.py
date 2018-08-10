@@ -18,6 +18,8 @@ from django.contrib import admin
 
 from . import views
 
+app_name = "djangoal"
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.HomeView.as_view(), name='home'),
