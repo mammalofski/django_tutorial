@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 
 def index(request):
-    return render(request, "index.html", {})
+    return render(request, "index.html")
 
 # def index(request):
 #     return HttpResponse('my first django project')

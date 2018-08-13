@@ -22,7 +22,6 @@ app_name = "djangoal"
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.HomeView.as_view(), name='home'),
-    url(r'hello/$', views.HelloWorldView.as_view(), name='hello'),
+    url(r'^$', views.home, name='home'),
     url(r'teams/', include('teams.urls', namespace='teams')),
 ]
