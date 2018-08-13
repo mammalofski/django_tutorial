@@ -15,13 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.urls import path
 
 from . import views
 
 app_name = "djangoal"
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$', views.home, name='home'),
+    path('hello/', views.HelloWorldView.as_view()),
+    path('admin/', admin.site.urls),
+    path('', views.HomeView.as_view(), name='home'),
     url(r'teams/', include('teams.urls', namespace='teams')),
 ]
