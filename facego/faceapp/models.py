@@ -19,6 +19,9 @@ class Group(models.Model):
     description = models.CharField(max_length=255, blank=True, null=True)
     users = models.ManyToManyField(User)
 
+    def __str__(self):
+        return self.name
+
 
 class Comment(models.Model):
     user = models.ForeignKey(User, related_name='comments', on_delete=models.CASCADE)

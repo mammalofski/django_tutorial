@@ -9,6 +9,11 @@
     {% for post in posts %}
         <ul>
             <li>{{post.content}}</li>
+            <ul>
+                {% for comment in post.comments.all %}
+                    <li>{{comment.content}}</li>
+                {% endfor %}
+            </ul>
         </ul>
 
 
