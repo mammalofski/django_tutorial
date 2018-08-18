@@ -9,10 +9,16 @@ from .models import *
 # class UserHomeView(DetailView)
 
 
-def user_home(request, username):
+def user_posts(request, username):
     user = get_object_or_404(User, username=username)
     all_posts = Post.objects.filter(owner=user).prefetch_related('comments')
     return render(request, 'faceapp/posts.html', {'posts': all_posts})
+
+
+def user_home(request):
+    relations = Relation.objects.filter(follower=request.user).values_list('followed_by', flat=True)
+    all_posts = Post.objects.filter(owner__in=relations)
+    return render(request, 'faceapp/user_home.html', {'posts': all_posts})
 
 
 
