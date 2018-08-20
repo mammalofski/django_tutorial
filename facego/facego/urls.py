@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from . import views
+from django.conf import settings
 
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
@@ -24,4 +25,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-urlpatterns += staticfiles_urlpatterns()
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
+
+# urlpatterns += staticfiles_urlpatterns()

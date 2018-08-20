@@ -10,15 +10,23 @@ from .models import *
 
 
 def user_posts(request, username):
-    user = get_object_or_404(User, username=username)
-    all_posts = Post.objects.filter(owner=user).prefetch_related('comments')
+    q = request.GET.get('qs')
+    ex = request.GET.get('ex')
+    # user = get_object_or_404(User, username=username)
+    all_posts = Post.objects.filter(owner__username=username).prefetch_related('comments')
+    if q:
+        all_posts = all_posts.filter(content__icontains=q)
+    if ex:
+        all_posts = all_posts.exclude(content__icontains=ex)
     return render(request, 'faceapp/posts.html', {'posts': all_posts})
+
+# def user_posts_search(request, username, query):
+#     # user = get_object_or_404(User, username=username)
+#     all_posts = Post.objects.filter(owner__username=username, content__icontains=query).prefetch_related('comments')
+#     return render(request, 'faceapp/posts.html', {'posts': all_posts})
 
 
 def user_home(request):
-    relations = Relation.objects.filter(follower=request.user).values_list('followed_by', flat=True)
-    all_posts = Post.objects.filter(owner__in=relations)
-    return render(request, 'faceapp/user_home.html', {'posts': all_posts})
-
+    user = request.user
 
 
