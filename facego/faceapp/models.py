@@ -13,6 +13,9 @@ class Post(models.Model):
     deleted = models.BooleanField(default=False)
     # image = models.ImageField(blank=True, null=True)
 
+    class Meta:
+        ordering = ['created_date_time', "content"]
+
 
 class Group(models.Model):
     name = models.CharField(max_length=50)
@@ -29,6 +32,7 @@ class Comment(models.Model):
     content = models.CharField(max_length=127)
     deleted = models.BooleanField(default=False)
     created_date_time = models.DateTimeField(default=timezone.now)
+    no_seen = models.IntegerField(default=0)
 
 
 class Like(models.Model):

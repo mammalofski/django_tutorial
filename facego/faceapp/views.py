@@ -20,6 +20,7 @@ def user_posts(request, username):
         all_posts = all_posts.exclude(content__icontains=ex)
     return render(request, 'faceapp/posts.html', {'posts': all_posts})
 
+
 # def user_posts_search(request, username, query):
 #     # user = get_object_or_404(User, username=username)
 #     all_posts = Post.objects.filter(owner__username=username, content__icontains=query).prefetch_related('comments')
@@ -27,13 +28,13 @@ def user_posts(request, username):
 
 
 def user_home(request):
+    p = request.GET.get('p')
     user = request.user
-    relations = Relation.objects.filter(follower=user)
-    my_list = []
-    for relation in relations:
-        my_list.append(relation.followed_by.id)
-    posts = Post.objects.filter(owner_id__in=my_list).order_by('-created_date_time')
+    relations = Relation.objects.filter(follower_id=user.id).values_list('followed_by_id', flat=True)
+    posts = Post.objects.filter(owner_id__in=relations, deleted=False).values('id', 'content')
+    if p:
+        p = int(p)
+        posts = posts[10 * (p - 1): 10 * p]
     return render(request, 'faceapp/user_home.html', {'posts': posts})
-
 
 
