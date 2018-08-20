@@ -1,0 +1,345 @@
+(django_test2) mammalofski@navid-pc:~/Desktop/django_tutorial/facego$ python3 manage.py shell
+Python 3.5.2 (default, Nov 23 2017, 16:37:01)
+[GCC 5.4.0 20160609] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from faceapp.models import *
+>>> p = Post.objects.get(id=10)
+>>> p
+<Post: Post object (10)>
+>>> p.content
+'ayyohannas bedoonin man kheili luxary am'
+>>> p.owneer
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'Post' object has no attribute 'owneer'
+>>> p.owner
+<User: ververeJadoo>
+>>> posts = Post.objects.filter(user=user)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'user' is not defined
+>>> user = User.objects.get(id=1)
+>>> posts = Post.objects.filter(user=user)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 841, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 859, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1263, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1287, in _add_q
+    split_subq=split_subq,
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1164, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1028, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1389, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+django.core.exceptions.FieldError: Cannot resolve keyword 'user' into field. Choices are: comments, content, created_date_time, deleted, id, likes, owner, owner_id
+>>> posts = Post.objects.filter(owner=user)
+>>> posts
+<QuerySet [<Post: Post object (1)>, <Post: Post object (2)>, <Post: Post object (3)>, <Post: Post object (4)>, <Post: Post object (5)>, <Post: Post object (6)>, <Post: Post object (8)>, <Post: Post object (17)>, <Post: Post object (18)>, <Post: Post object (19)>, <Post: Post object (34)>, <Post: Post object (36)>, <Post: Post object (37)>, <Post: Post object (46)>, <Post: Post object (49)>, <Post: Post object (56)>, <Post: Post object (65)>, <Post: Post object (69)>, <Post: Post object (74)>, <Post: Post object (81)>, '...(remaining elements truncated)...']>
+>>> posts[1]
+<Post: Post object (2)>
+>>> posts[1].content
+'I am in a dipshit hole full of work and stuff'
+>>> posts = Post.objects.filter(owner_id=4)
+>>> posts
+<QuerySet [<Post: Post object (12)>, <Post: Post object (16)>, <Post: Post object (27)>, <Post: Post object (30)>, <Post: Post object (31)>, <Post: Post object (35)>, <Post: Post object (45)>, <Post: Post object (52)>, <Post: Post object (53)>, <Post: Post object (54)>, <Post: Post object (57)>, <Post: Post object (58)>, <Post: Post object (61)>, <Post: Post object (64)>, <Post: Post object (67)>, <Post: Post object (75)>, <Post: Post object (77)>, <Post: Post object (83)>, <Post: Post object (97)>, <Post: Post object (100)>, '...(remaining elements truncated)...']>
+>>> posts
+<QuerySet [<Post: Post object (12)>, <Post: Post object (16)>, <Post: Post object (27)>, <Post: Post object (30)>, <Post: Post object (31)>, <Post: Post object (35)>, <Post: Post object (45)>, <Post: Post object (52)>, <Post: Post object (53)>, <Post: Post object (54)>, <Post: Post object (57)>, <Post: Post object (58)>, <Post: Post object (61)>, <Post: Post object (64)>, <Post: Post object (67)>, <Post: Post object (75)>, <Post: Post object (77)>, <Post: Post object (83)>, <Post: Post object (97)>, <Post: Post object (100)>, '...(remaining elements truncated)...']>
+>>> posts[0].content
+'konkoor shodam rotbe 1234513945781039485170293847198347510324875103248571230495'
+>>> p = posts[0]
+>>> p
+<Post: Post object (12)>
+>>> p.content = "man kheii khafanam bache ha besoozin"
+>>> p.save()
+>>> ppp = Post.objects.none()
+>>> ppp
+<QuerySet []>
+>>> l = [2, 4, 6]
+>>> Post.objects.filter(owner_id__in=l)
+<QuerySet [<Post: Post object (7)>, <Post: Post object (14)>, <Post: Post object (20)>, <Post: Post object (25)>, <Post: Post object (29)>, <Post: Post object (32)>, <Post: Post object (39)>, <Post: Post object (40)>, <Post: Post object (43)>, <Post: Post object (55)>, <Post: Post object (63)>, <Post: Post object (66)>, <Post: Post object (70)>, <Post: Post object (79)>, <Post: Post object (85)>, <Post: Post object (103)>, <Post: Post object (112)>, <Post: Post object (121)>, <Post: Post object (123)>, <Post: Post object (131)>, '...(remaining elements truncated)...']>
+>>> p = Post.objects.get(id=100)
+>>> p
+<Post: Post object (100)>
+>>> p.content
+'enghad pool daram nemidoonam bahashon chikar konam'
+>>> p.content = "chegha hva khobe emtooz"
+>>> p.save()
+>>> p = Post()
+>>> p = Post.objects.create(content="salam", owner_id=2)
+>>> p
+<Post: Post object (1008)>
+>>> posts = Post.objects.filter(owner_id=2)
+>>> posts
+<QuerySet [<Post: Post object (7)>, <Post: Post object (14)>, <Post: Post object (20)>, <Post: Post object (25)>, <Post: Post object (29)>, <Post: Post object (32)>, <Post: Post object (39)>, <Post: Post object (40)>, <Post: Post object (43)>, <Post: Post object (55)>, <Post: Post object (63)>, <Post: Post object (66)>, <Post: Post object (70)>, <Post: Post object (79)>, <Post: Post object (85)>, <Post: Post object (103)>, <Post: Post object (112)>, <Post: Post object (121)>, <Post: Post object (123)>, <Post: Post object (131)>, '...(remaining elements truncated)...']>
+>>> posts.update(deleted=True)
+61
+>>> posts
+<QuerySet [<Post: Post object (7)>, <Post: Post object (14)>, <Post: Post object (20)>, <Post: Post object (25)>, <Post: Post object (29)>, <Post: Post object (32)>, <Post: Post object (39)>, <Post: Post object (40)>, <Post: Post object (43)>, <Post: Post object (55)>, <Post: Post object (63)>, <Post: Post object (66)>, <Post: Post object (70)>, <Post: Post object (79)>, <Post: Post object (85)>, <Post: Post object (103)>, <Post: Post object (112)>, <Post: Post object (121)>, <Post: Post object (123)>, <Post: Post object (131)>, '...(remaining elements truncated)...']>
+>>> posts.delete()
+(590, {'faceapp.Comment': 51, 'faceapp.Like': 478, 'faceapp.Post': 61})
+>>> import random
+>>> l = [
+... ]
+>>>
+>>> for i in range(100):
+...     p = Post(content="chetori", owner_id=2)
+...     l.append(p)
+...
+>>> posts = Post.objects.bulk_create(l)
+>>> posts
+[<Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>, <Post: Post object (None)>]
+>>> p = Post.objects.get_
+Post.objects.get_or_create(  Post.objects.get_queryset(
+>>> p = Post.objects.get_
+Post.objects.get_or_create(  Post.objects.get_queryset(
+>>> p = Post.objects.get_or_create(content="salam gholi chetori")
+Traceback (most recent call last):
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 486, in get_or_create
+    return self.get(**lookup), False
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 399, in get
+    self.model._meta.object_name
+faceapp.models.Post.DoesNotExist: Post matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/backends/utils.py", line 85, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/backends/sqlite3/base.py", line 296, in execute
+    return Database.Cursor.execute(self, query, params)
+sqlite3.IntegrityError: NOT NULL constraint failed: faceapp_post.owner_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 488, in get_or_create
+    return self._create_object_from_params(lookup, params)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 527, in _create_object_from_params
+    raise e
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 520, in _create_object_from_params
+    obj = self.create(**params)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 413, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/base.py", line 717, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/base.py", line 747, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/base.py", line 830, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/base.py", line 868, in _do_insert
+    using=using, raw=raw)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 1133, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/compiler.py", line 1285, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/backends/utils.py", line 100, in execute
+    return super().execute(sql, params)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/backends/utils.py", line 68, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/backends/utils.py", line 77, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/backends/utils.py", line 85, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/utils.py", line 89, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/backends/utils.py", line 85, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/backends/sqlite3/base.py", line 296, in execute
+    return Database.Cursor.execute(self, query, params)
+django.db.utils.IntegrityError: NOT NULL constraint failed: faceapp_post.owner_id
+>>> p = Post.objects.get_or_create(content="salam gholi chetori", owner_id=2)
+>>> p
+(<Post: Post object (1109)>, True)
+>>> p = Post.objects.get_or_create(content="salam gholi chetori
+  File "<console>", line 1
+    p = Post.objects.get_or_create(content="salam gholi chetori
+                                                              ^
+SyntaxError: EOL while scanning string literal
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>> Post.objects.datetimes()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+TypeError: datetimes() missing 2 required positional arguments: 'field_name' and 'kind'
+>>> Post.objects.datetimes('created_date_time', 'year')
+<QuerySet [datetime.datetime(2018, 1, 1, 0, 0, tzinfo=<UTC>)]>
+>>> Post.objects.datetimes('created_date_time')
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+TypeError: datetimes() missing 1 required positional argument: 'kind'
+>>> Post.objects.datetimes('created_date_time', 'month')
+<QuerySet [datetime.datetime(2018, 8, 1, 0, 0, tzinfo=<UTC>)]>
+>>> Post.objects.datetimes('created_date_time', 'day')
+<QuerySet [datetime.datetime(2018, 8, 13, 0, 0, tzinfo=<UTC>), datetime.datetime(2018, 8, 16, 0, 0, tzinfo=<UTC>), datetime.datetime(2018, 8, 18, 0, 0, tzinfo=<UTC>), datetime.datetime(2018, 8, 20, 0, 0, tzinfo=<UTC>)]>
+>>> c = Comment.objects.get(10)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 390, in get
+    clone = self.filter(*args, **kwargs)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 841, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 859, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1263, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1287, in _add_q
+    split_subq=split_subq,
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1161, in build_filter
+    arg, value = filter_expr
+TypeError: 'int' object is not iterable
+>>> c = Comment.objects.get(id=10)
+>>> c
+<Comment: Comment object (10)>
+>>> c.no_seen
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'Comment' object has no attribute 'no_seen'
+>>> exit()
+(django_test2) mammalofski@navid-pc:~/Desktop/django_tutorial/facego$ python3 manage.py shell
+Python 3.5.2 (default, Nov 23 2017, 16:37:01)
+[GCC 5.4.0 20160609] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from faceapp.models import *
+>>> c = Comment.objects.get(id=10)
+>>> c
+<Comment: Comment object (10)>
+>>> c.no_seen
+0
+>>> c.no_seen = c.no_seen + 1
+>>> c.save()
+>>> c.no_seen
+1
+>>> from django.db import F
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+ImportError: cannot import name 'F'
+>>> from django.db.models import F
+>>> Comment.objects.filter(id=10).update(no_seen=F('no_seen') + 1)
+1
+>>> c
+<Comment: Comment object (10)>
+>>> c.no_seen
+1
+>>> c.refresh_from_db()
+>>> c.no_seen
+2
+>>> Comment.objects.filter(owner_id=F('post__woner_id'))
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 841, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 859, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1263, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1287, in _add_q
+    split_subq=split_subq,
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1164, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1028, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1389, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+django.core.exceptions.FieldError: Cannot resolve keyword 'owner_id' into field. Choices are: content, created_date_time, deleted, id, likes, no_seen, post, post_id, user, user_id
+>>> Comment.objects.filter(owner_id=F('post__owner_id'))
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 841, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 859, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1263, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1287, in _add_q
+    split_subq=split_subq,
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1164, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1028, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1389, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+django.core.exceptions.FieldError: Cannot resolve keyword 'owner_id' into field. Choices are: content, created_date_time, deleted, id, likes, no_seen, post, post_id, user, user_id
+>>> Comment.objects.filter(user_id=F('post__owner_id'))
+<QuerySet [<Comment: Comment object (4)>, <Comment: Comment object (9)>, <Comment: Comment object (21)>, <Comment: Comment object (27)>, <Comment: Comment object (33)>, <Comment: Comment object (34)>, <Comment: Comment object (36)>, <Comment: Comment object (47)>, <Comment: Comment object (53)>, <Comment: Comment object (55)>, <Comment: Comment object (58)>, <Comment: Comment object (65)>, <Comment: Comment object (68)>, <Comment: Comment object (76)>, <Comment: Comment object (82)>, <Comment: Comment object (83)>, <Comment: Comment object (94)>, <Comment: Comment object (104)>, <Comment: Comment object (111)>, <Comment: Comment object (118)>, '...(remaining elements truncated)...']>
+>>> from django.db.models import Q
+>>> Comment.objects.filter(no_seen__gt=2)
+<QuerySet []>
+>>> Comment.objects.filter(no_seen__gte=2)
+<QuerySet [<Comment: Comment object (10)>]>
+>>> Comment.objects.filter(Q(no_seen==1)|Q(no_seen=2))
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'no_seen' is not defined
+>>> Comment.objects.filter(Q(no_seen=1)|Q(no_seen=2))
+<QuerySet [<Comment: Comment object (10)>]>
+>>> Comment.objects.filter(Q(no_seen=1)|Q(no_seen=2), user_is=2)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/manager.py", line 82, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 841, in filter
+    return self._filter_or_exclude(False, *args, **kwargs)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/query.py", line 859, in _filter_or_exclude
+    clone.query.add_q(Q(*args, **kwargs))
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1263, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1287, in _add_q
+    split_subq=split_subq,
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1164, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg)
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1028, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+  File "/home/mammalofski/.virtualenvs/django_test2/lib/python3.5/site-packages/django/db/models/sql/query.py", line 1389, in names_to_path
+    "Choices are: %s" % (name, ", ".join(available)))
+django.core.exceptions.FieldError: Cannot resolve keyword 'user_is' into field. Choices are: content, created_date_time, deleted, id, likes, no_seen, post, post_id, user, user_id
+>>> Comment.objects.filter(Q(no_seen=1)|Q(no_seen=2), user_id=2)
+<QuerySet []>
+>>>
