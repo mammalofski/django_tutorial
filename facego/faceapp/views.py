@@ -28,5 +28,12 @@ def user_posts(request, username):
 
 def user_home(request):
     user = request.user
+    relations = Relation.objects.filter(follower=user)
+    my_list = []
+    for relation in relations:
+        my_list.append(relation.followed_by.id)
+    posts = Post.objects.filter(owner_id__in=my_list).order_by('-created_date_time')
+    return render(request, 'faceapp/user_home.html', {'posts': posts})
+
 
 

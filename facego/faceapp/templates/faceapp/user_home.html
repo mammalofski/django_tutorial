@@ -9,9 +9,10 @@
 <ul>
     {% for post in posts %}
         <li>
-            {{ post.content }}
+            {{ post.owner.username }} : {{ post.content }}
         </li>
     {% endfor %}
+
 </ul>
 
 </body>
