@@ -23,7 +23,8 @@ urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('fa/', include('faceapp.urls')),
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/v1/faceapp/', include(('faceapp.urls', 'faceapp'), namespace='faceapp')),
 ]
 
 if settings.DEBUG:
