@@ -2,17 +2,49 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView, ListView
 from django.http import Http404, HttpResponseBadRequest
 from django.db.models import Count, Sum, Avg, Prefetch
+from rest_framework import generics
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import viewsets
 
 # Create your views here.
 from .models import *
 from . import serializers
 
 
-# class UserHomeView(DetailView)
+class ListCreatePost(generics.ListCreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = serializers.PostSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(deleted=False)[50: 60]
+
+
+class RetrieveUpdateDestroyPost(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = serializers.PostSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(deleted=False)
+
+
+class ListCreateComment(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = serializers.CommentSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(deleted=False, post_id=self.kwargs.get('post_pk'))
+
+
+class RetrieveUpdateDestroyComment(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = serializers.CommentSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(deleted=False)
+
 
 class PostListCreate(APIView):
     def get(self, request):
@@ -25,6 +57,7 @@ class PostListCreate(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 
 

@@ -6,6 +6,7 @@ from . import models
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Post
+        read_only_fields = ('created_date_time', )
         fields = (
             'id',
             'content',
