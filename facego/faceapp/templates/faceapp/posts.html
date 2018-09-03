@@ -10,8 +10,8 @@
         <ul>
             <li>{{post.content}} no_of_likes : {{ post.no_of_likes}}</li>
             <ul>
-                {% for comment in post.comments.all %}
-                    <li>{{comment.content}}</li>
+                {% for comment in post.all_comments %}
+                    <li>{{comment.content}} no_of_likes : {{ comment.no_of_likes }}</li>
                 {% endfor %}
             </ul>
         </ul>
