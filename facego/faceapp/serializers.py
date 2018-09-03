@@ -3,18 +3,6 @@ from rest_framework import serializers
 from . import models
 
 
-class PostSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Post
-        read_only_fields = ('created_date_time', )
-        fields = (
-            'id',
-            'content',
-            'owner',
-            'created_date_time',
-        )
-
-
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Comment
@@ -25,5 +13,26 @@ class CommentSerializer(serializers.ModelSerializer):
             'created_date_time',
             'no_seen',
             'content',
+        )
+
+
+
+
+
+
+
+
+class PostSerializer(serializers.ModelSerializer):
+    comments = CommentSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = models.Post
+        read_only_fields = ('created_date_time', )
+        fields = (
+            'id',
+            'content',
+            'owner',
+            'created_date_time',
+            'comments'
         )
 

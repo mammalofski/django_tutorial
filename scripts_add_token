@@ -1,0 +1,9 @@
+>>> from rest_framework.authtoken.models import Token
+>>> from django.contrib.auth.models import User
+>>> user = User.objects.first()
+>>> user
+<User: mammalofski>
+>>> token = Token.objects.create(user=user)
+>>> token.key
+'1d6f722ae33fcf48566622c645b37b3a73595d2d'
+

@@ -9,7 +9,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework import mixins
-from rest_framework.decorators import detail_route
+from rest_framework import permissions
+
 
 # Create your views here.
 from .models import *
@@ -27,9 +28,20 @@ from . import serializers
 #     `partial_update()`, `destroy()` and `list()` actions.
 #     """
 #     pass
+class IsOwner(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if int(request.data['owner']) == request.user.id:
+            return True
+        return False
+        # serializer = PostSerializer(data=request.data)
+        # serializer.is_valid(raise_exception=True)
+        # if serializer.data['owner'] == request.user:
+        #     return True
+        # return False
 
 
 class PostViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsOwner, permissions.IsAdminUser)
     queryset = Post.objects.filter(deleted=False)
     serializer_class = serializers.PostSerializer
 
