@@ -8,7 +8,7 @@
 
     {% for post in posts %}
         <ul>
-            <li>{{post.content}}</li>
+            <li>{{post.content}} no_of_likes : {{ post.no_of_likes}}</li>
             <ul>
                 {% for comment in post.comments.all %}
                     <li>{{comment.content}}</li>
