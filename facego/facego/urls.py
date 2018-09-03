@@ -17,14 +17,20 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from . import views
+from faceapp import views
 from django.conf import settings
+from rest_framework import routers
+
+router = routers.SimpleRouter()
+router.register('post', views.PostViewSet)
 
 urlpatterns = [
-    path('', views.HomeView.as_view(), name='home'),
+    # path('', views.HomeView.as_view(), name='home'),
     # path('fa/', include('faceapp.urls')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/v1/faceapp/', include(('faceapp.urls', 'faceapp'), namespace='faceapp')),
+    path('api/v2/', include((router.urls, 'faceapp'), namespace='apiv2')),
 ]
 
 if settings.DEBUG:

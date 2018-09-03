@@ -8,10 +8,36 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework import mixins
+from rest_framework.decorators import detail_route
 
 # Create your views here.
 from .models import *
 from . import serializers
+
+
+# class ModelViewSet(mixins.CreateModelMixin,
+#                    mixins.RetrieveModelMixin,
+#                    mixins.UpdateModelMixin,
+#                    mixins.DestroyModelMixin,
+#                    mixins.ListModelMixin,
+#                    GenericViewSet):
+#     """
+#     A viewset that provides default `create()`, `retrieve()`, `update()`,
+#     `partial_update()`, `destroy()` and `list()` actions.
+#     """
+#     pass
+
+
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.filter(deleted=False)
+    serializer_class = serializers.PostSerializer
+
+    def perform_destroy(self, instance):
+        instance.deleted = True
+        instance.save()
+
+
 
 
 class ListCreatePost(generics.ListCreateAPIView):
@@ -19,7 +45,7 @@ class ListCreatePost(generics.ListCreateAPIView):
     serializer_class = serializers.PostSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(deleted=False)[50: 60]
+        return self.queryset.filter(deleted=False)
 
 
 class RetrieveUpdateDestroyPost(generics.RetrieveUpdateDestroyAPIView):
