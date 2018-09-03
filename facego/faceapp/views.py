@@ -3,11 +3,22 @@ from django.views.generic import TemplateView, ListView
 from django.http import Http404
 from django.db.models import Count, Sum, Avg, Prefetch
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
 # Create your views here.
 from .models import *
+from . import serializers
 
 
 # class UserHomeView(DetailView)
+
+class PostList(APIView):
+    def get(self, request):
+        posts = Post.objects.filter(deleted=False)
+        serializer = serializers.PostSerializer(posts, many=True)
+        return Response(serializer.data)
+
 
 
 def user_posts(request, username):

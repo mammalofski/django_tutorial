@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'debug_toolbar',
-    'faceapp'
+    'faceapp',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,13 @@ STATIC_URL = '/static/'
 # )
 
 INTERNAL_IPS = ['127.0.0.1']
+
+# REST_FRAMEWORK
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    )
+}
