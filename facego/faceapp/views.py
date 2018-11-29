@@ -51,7 +51,6 @@ class PostViewSet(viewsets.ModelViewSet):
 
 
 
-
 class ListCreatePost(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = serializers.PostSerializer

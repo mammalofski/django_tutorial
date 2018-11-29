@@ -1,0 +1,14 @@
+{% extends 'hi-django.html' %}
+
+{% block body %}
+
+<div class="musics">
+    {% for music in musics %}
+
+        {{ music.name }} </br>
+
+    {% endfor %}
+</div>
+
+
+{% endblock %}
