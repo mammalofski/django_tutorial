@@ -16,8 +16,7 @@
 
     <div class="container">
         <div class="row">
-            {% for album in albums %}
-                <div class="col-md-6 album">
+                <div class="col-md-12 album">
                     <h2>{{ album.name }}</h2>
 
                     {% for song in album.songs.all %}
@@ -26,7 +25,6 @@
                         </ul>
                     {% endfor %}
                 </div>
-            {% endfor %}
         </div>
     </div>
 
